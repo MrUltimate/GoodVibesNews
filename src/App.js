@@ -8,7 +8,6 @@ import Science from "./components/Sciences";
 import Tech from "./components/Tech";
 import Health from "./components/Health";
 import Business from "./components/Business";
-import World from "./components/World";
 
 class App extends React.Component {
   render() {
