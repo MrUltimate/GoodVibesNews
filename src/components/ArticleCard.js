@@ -9,7 +9,7 @@ function makeMarkup(string) {
 
 function ArticleCard({ article, index }) {
   return (
-    <a className="card" href={article.short_url} target="_blank" rel="noopener noreferrer">
+    <a className="card" href={article.url} target="_blank" rel="noopener noreferrer">
       <div className="cardImageParent">
         <div
           className="cardImage"
@@ -21,7 +21,9 @@ function ArticleCard({ article, index }) {
       <div className="cardInfo">
         <div className="tags">
           <span className="category">{article.section}</span>
-          <span className="score">Score: {article.score}</span>
+          <span className="score positive">Positive: {article.positive}</span>
+          <span className="score neutral">Neutral: {article.neutral}</span>
+          <span className="score negative">Negative: {article.negative}</span>
         </div>
         <h1 dangerouslySetInnerHTML={makeMarkup(removeWidows(article.title).res)}></h1>
         <p dangerouslySetInnerHTML={makeMarkup(removeWidows(article.abstract).res)}></p>

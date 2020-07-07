@@ -29,11 +29,7 @@ class App extends React.Component {
             </div>
             <div>Vibe News.</div>
           </div>
-          <div className="links">
-            <a href="#">About</a>
-            <a href="#">Donate</a>
-            <a href="#">Credits</a>
-          </div>
+          <div className="desc"></div>
         </header>
         <main className="App">
           {/* <World /> */}
@@ -44,6 +40,21 @@ class App extends React.Component {
           <Business />
           <Arts />
         </main>
+        <footer>
+          <div className="copy">
+            <div>
+              Made with <span className="heart">❤️ </span> by{" "}
+            </div>
+            <a href="http://www.helloshivam.com/" target="_blank" rel="noopener noreferrer">
+              Shivam Sinha
+            </a>
+          </div>
+          <div className="links">
+            <a href="#">About</a>
+            <a href="#">Donate</a>
+            <a href="#">Credits</a>
+          </div>
+        </footer>
       </>
     );
   }

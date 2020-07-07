@@ -55,7 +55,12 @@ class Health extends React.Component {
             console.log(res.data);
             res.data.documents.map((item, index) => {
               if (item.sentiment === "positive") {
-                positiveArticles.push({ ...articleAbstracts[index], score: item.documentScores.positive });
+                positiveArticles.push({
+                  ...articleAbstracts[index],
+                  positive: item.documentScores.positive,
+                  neutral: item.documentScores.neutral,
+                  negative: item.documentScores.negative,
+                });
               }
             });
           })
@@ -76,7 +81,7 @@ class Health extends React.Component {
   }
   render() {
     return (
-      <div className="container">
+      <div className={`container ${positiveArticles.length < 1 && `hide`}`}>
         <h1>Health</h1>
         <h3>Lorem ipsum dolor sit amet.</h3>
         {this.state.frontpageLoading ? (

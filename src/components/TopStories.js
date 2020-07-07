@@ -24,7 +24,7 @@ class TopStories extends React.Component {
           articleAbstracts.push({
             id: index,
             language: "en",
-            text: item.title,
+            text: item.title + item.abstract,
             ...item,
             // title: item.title,
             // abstract: item.abstract,
@@ -55,7 +55,12 @@ class TopStories extends React.Component {
             console.log(res.data);
             res.data.documents.map((item, index) => {
               if (item.sentiment === "positive") {
-                positiveArticles.push({ ...articleAbstracts[index], score: item.documentScores.positive });
+                positiveArticles.push({
+                  ...articleAbstracts[index],
+                  positive: item.documentScores.positive,
+                  neutral: item.documentScores.neutral,
+                  negative: item.documentScores.negative,
+                });
               }
             });
           })
@@ -76,7 +81,7 @@ class TopStories extends React.Component {
   }
   render() {
     return (
-      <div className="container">
+      <div className={`container ${positiveArticles.length < 1 && `hide`}`}>
         <h1>Top Stories</h1>
         <h3>Lorem ipsum dolor sit amet.</h3>
         {this.state.frontpageLoading ? (

@@ -1,3 +1,5 @@
+@use "src/fonts";
+
 * {
   box-sizing: border-box;
 }
@@ -18,8 +20,9 @@ body {
   padding: 0;
   background: $bg;
   color: $black;
-  font-family: "Radio Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+  font-family: "Neue Haas Unica Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
     "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 1;
 }
 
 a {
@@ -94,7 +97,7 @@ header {
     line-height: 0.9;
     font-weight: bold;
   }
-  .links {
+  .desc {
     width: 50%;
   }
 }
@@ -110,7 +113,7 @@ header {
   &:nth-last-child(1) {
     margin-bottom: 3rem;
   }
-  h1 {
+  > h1 {
     margin: 0rem 0 0 0;
     font-family: "Formula Condensed", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
       "Open Sans", "Helvetica Neue", sans-serif;
@@ -119,12 +122,11 @@ header {
     line-height: 1;
   }
   h3 {
-    font-family: "Radio Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-      "Open Sans", "Helvetica Neue", sans-serif;
     font-weight: 500;
     font-size: 21pt;
-    margin: 0rem 0 1.5rem 0;
+    margin: -0.5rem 0 2.5rem 0;
     line-height: 1;
+    width: 60%;
     // color: $grey;
   }
   .articleGrid {
@@ -158,43 +160,108 @@ header {
         margin: 1rem;
         .tags {
           margin: 0.375rem 0 1rem 0;
-          span.category {
+          span {
             display: inline-block;
-            padding: 0.375rem 0.475rem;
-            background: $yellow;
+            padding: 0.375rem 0.475rem 0.475rem 0.475rem;
             border: 1px solid $black;
             border-radius: 0.35rem;
             text-transform: capitalize;
             color: $black;
-          }
-          span.score {
-            display: inline-block;
-            padding: 0.375rem 0.475rem;
-            background: $green;
-            border: 1px solid $black;
-            border-radius: 0.35rem;
-            text-transform: capitalize;
-            color: $black;
-            margin-left: 0.5rem;
+            &.category {
+              background: $grey;
+            }
+            &.score {
+              &.positive {
+                background: $green;
+              }
+              &.neutral {
+                background: $yellow;
+              }
+              &.negative {
+                background: $red;
+              }
+              margin-left: 0.5rem;
+            }
           }
         }
         h1 {
-          font-family: "Radio Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-            "Open Sans", "Helvetica Neue", sans-serif;
           font-weight: 500;
           font-size: 21pt;
           color: $black;
           text-transform: none;
-          width: 80%;
-          orphans: 3;
+          width: 90%;
+          margin: 0;
         }
         p {
-          font-family: "Radio Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-            "Open Sans", "Helvetica Neue", sans-serif;
           color: $black;
           line-height: 1.3;
           margin: 0.75rem 0 0 0;
         }
+      }
+    }
+  }
+  &.hide {
+    display: none;
+  }
+}
+
+footer {
+  width: 85vw;
+  max-width: 1440px;
+  margin: 3rem auto;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  border-top: 1px solid $black;
+  .copy {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    a {
+      margin-left: 0.275rem;
+      color: $black;
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        left: 0;
+        bottom: -2px;
+        background-color: $black;
+        transition: width 0.25s ease-in-out;
+      }
+      &:hover {
+        &::before {
+          width: 0;
+        }
+      }
+    }
+    .heart {
+      margin-right: 0.25rem;
+    }
+  }
+  .links {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    a {
+      padding: 0.6rem 1.1rem 0.8rem 1.1rem;
+      border-radius: 10rem;
+      border: 1px solid $black;
+      color: $black;
+      margin-right: 0.75rem;
+      line-height: 1;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      &:nth-last-child(1) {
+        margin-right: 0;
+      }
+      &:hover {
+        background-color: $black;
+        color: $bg;
       }
     }
   }
