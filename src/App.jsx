@@ -3,12 +3,12 @@ import "./App.scss";
 import smiley from "./images/smiley.png";
 
 //Components
-import TopStories from "./components/TopStories";
-import Arts from "./components/Arts";
-import Science from "./components/Sciences";
-import Tech from "./components/Tech";
-import Health from "./components/Health";
-import Business from "./components/Business";
+import TopStories from "./components/TopStories.jsx";
+import Arts from "./components/Arts.jsx";
+import Science from "./components/Sciences.jsx";
+import Tech from "./components/Tech.jsx";
+import Health from "./components/Health.jsx";
+import Business from "./components/Business.jsx";
 
 class App extends React.Component {
   render() {
