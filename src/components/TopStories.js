@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { fetchSubreddit } from "fetch-subreddit";
 
 //News Card
 import ArticleCard from "./ArticleCard";
@@ -13,18 +14,27 @@ class TopStories extends React.Component {
   };
 
   async componentDidMount() {
+    fetchSubreddit("UpliftingNews").then((res) => console.log(res));
+
     //Front Page
-    axios
-      .get(`https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${process.env.REACT_APP_API_KEY}`)
+    axios({
+      method: "GET",
+      url:
+        "https://api.newsriver.io/v2/search?query=language%3AEN%20AND%20website.domainName%3A(%22reuters.com%22%20OR%20%22nytimes.com%22%20OR%20%22cnn.com%22%20OR%20%22washingtonpost.com%22%20OR%20%22bostonglobe.com%22%20OR%20%22bbc.com%22)&sortBy=_score&sortOrder=DESC&limit=100",
+      headers: {
+        Authorization: "sBBqsGXiYgF0Db5OV5tAwyGwxf2Rb74EcW6O3No_tmYSsGJRhmEyQJRxA_y4dvhXn2pHZrSf1gT2PUujH1YaQA",
+      },
+      json: true,
+    })
       .then((res) => {
         console.log(res.data);
-        res.data.results.map((item, index) => {
+        res.data.map((item, index) => {
           // console.log(item.title);
           // console.log(sentiment.analyze(item.abstract));
           articleAbstracts.push({
             id: index,
             language: "en",
-            text: item.title + item.abstract,
+            text: item.title + item.text,
             ...item,
             // title: item.title,
             // abstract: item.abstract,
@@ -74,6 +84,7 @@ class TopStories extends React.Component {
       })
       .then(() => {
         //console.log(goodVibes_World.length);
+        // this.setState({ frontpageLoading: false });
       })
       .catch((err) => {
         console.log(err);
