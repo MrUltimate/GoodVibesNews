@@ -1,105 +1,60 @@
 import React from "react";
 import axios from "axios";
-import { fetchSubreddit } from "fetch-subreddit";
+import { LocalStorage } from "ttl-localstorage";
 
 //News Card
 import ArticleCard from "./ArticleCard";
 
-const articleAbstracts = [];
-const positiveArticles = [];
+const urls = [];
 
 class TopStories extends React.Component {
   state = {
-    frontpageLoading: true,
+    loading: true,
+    articles: [],
   };
 
   async componentDidMount() {
-    fetchSubreddit("UpliftingNews").then((res) => console.log(res));
-
-    //Front Page
-    axios({
-      method: "GET",
-      url:
-        "https://api.newsriver.io/v2/search?query=language%3AEN%20AND%20website.domainName%3A(%22reuters.com%22%20OR%20%22nytimes.com%22%20OR%20%22cnn.com%22%20OR%20%22washingtonpost.com%22%20OR%20%22bostonglobe.com%22%20OR%20%22bbc.com%22)&sortBy=_score&sortOrder=DESC&limit=100",
-      headers: {
-        Authorization: "sBBqsGXiYgF0Db5OV5tAwyGwxf2Rb74EcW6O3No_tmYSsGJRhmEyQJRxA_y4dvhXn2pHZrSf1gT2PUujH1YaQA",
-      },
-      json: true,
-    })
-      .then((res) => {
-        console.log(res.data);
-        res.data.map((item, index) => {
-          // console.log(item.title);
-          // console.log(sentiment.analyze(item.abstract));
-          articleAbstracts.push({
-            id: index,
-            language: "en",
-            text: item.title + item.text,
-            ...item,
-            // title: item.title,
-            // abstract: item.abstract,
-          });
-          // const sentiAnalysis = sentiment.analyze(item.title + item.asbtract, { extras: { Trump: -5 } }).score;
-          // if (sentiAnalysis > 0) {
-          //   const newItem = {
-          //     ...item,
-          //     score: sentiAnalysis,
-          //   };
-          //   frontpage.push(newItem);
-          //   // console.log(item.title);
-          // }
-        });
-        axios({
-          method: "POST",
-          url: "https://microsoft-azure-text-analytics-v1.p.rapidapi.com/sentiment",
-          data: {
-            documents: articleAbstracts,
-          },
-          headers: {
-            "X-RapidAPI-Host": "microsoft-text-analytics1.p.rapidapi.com",
-            "X-RapidAPI-Key": process.env.REACT_APP_RAPIDAPI_KEY,
-          },
-          json: true,
-        })
-          .then((res) => {
-            console.log(res.data);
-            res.data.documents.map((item, index) => {
-              if (item.sentiment === "positive") {
-                positiveArticles.push({
-                  ...articleAbstracts[index],
-                  positive: item.documentScores.positive,
-                  neutral: item.documentScores.neutral,
-                  negative: item.documentScores.negative,
-                });
-              }
+    LocalStorage.get("articles").then((data) => {
+      if (data) {
+        this.setState({ articles: data, loading: false });
+      } else {
+        axios
+          .get("http://127.0.0.1:8000/v0/goodvibes/")
+          .then(async (res) => {
+            //console.log(res.data);
+            res.data.map((item) => {
+              urls.push(item);
             });
+            const articles = urls.filter((item) => item.status === "ok");
+            this.setState({
+              loading: true,
+              articles: [],
+            });
+            console.log("Reset State", this.state.articles);
+            this.setState({ articles: articles });
+            console.log("After Reset State", this.state.articles);
           })
           .then(() => {
-            console.log(positiveArticles);
-            this.setState({ frontpageLoading: false });
-          })
-          .catch((err) => {
-            console.log(err);
+            this.setState({ loading: false });
+            LocalStorage.put("articles", this.state.articles, 43200);
+            // console.log(this.state.articles);
           });
-      })
-      .then(() => {
-        //console.log(goodVibes_World.length);
-        // this.setState({ frontpageLoading: false });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    });
   }
+
   render() {
     return (
-      <div className={`container ${positiveArticles.length < 1 && `hide`}`}>
+      <div className={`container`}>
         <h1>Top Stories</h1>
-        <h3>Lorem ipsum dolor sit amet.</h3>
-        {this.state.frontpageLoading ? (
+        <h3>
+          <span className="articles">{this.state.articles.length}</span> Articles from this week's top trending news.
+        </h3>
+        {this.state.loading ? (
           <div>Loading...</div>
         ) : (
           <div className="articleGrid">
-            {positiveArticles.map((
+            {this.state.articles.map((
               item,
               index // console.log(item.title);
             ) => (
