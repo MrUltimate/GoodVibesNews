@@ -15,7 +15,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "string-remove-widows": "^1.6.9"
+    "string-remove-widows": "^1.6.9",
+    "ttl-localstorage": "^1.5.3"
   },
   "scripts": {
     "start": "env-cmd -f .env.development react-scripts start",
